@@ -1,0 +1,31 @@
+version: '3.9'
+services:
+  proxy:
+    container_name: htmx_envoy
+    build:
+      context: envoy
+    ports:
+      - 9901:9901
+      - 8080:8080
+    network_mode: "host"
+
+#  web:
+#    container_name: htmx_nginx
+#    build: ./nginx
+#    volumes:
+#      - ./static:/static # Add this line
+#    ports:
+#      - 8080:8080
+#    depends_on:
+#      - backend
+
+
+#  app:
+#    container_name: htmx_grpc_nginx
+#    image: app
+#    build:
+#      context: .
+#      dockerfile: Dockerfile_nginx
+#    restart: always
+#    ports:
+#      - "8080:8080"

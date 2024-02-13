@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package generated;
+option go_package = "/generated;generated";
+
+service APIService {
+  rpc AddItem(BodyRequest) returns (BodyResponse) {}
+}
+
+message BodyRequest {
+  string body = 1;
+}
+
+message BodyResponse {
+  string body = 1;
+}
