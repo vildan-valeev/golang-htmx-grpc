@@ -19,6 +19,11 @@ func (s *server) AddItem(ctx context.Context, in *generated.BodyRequest) (*gener
 	return &generated.BodyResponse{Body: fmt.Sprintf("<li class=\"item\">ID %d</li>", rand.Int())}, nil
 }
 
+func (s *server) ReadItem(ctx context.Context, in *generated.BodyRequest) (*generated.BodyResponse, error) {
+	log.Printf("Received: %v", in.GetBody())
+	return &generated.BodyResponse{Body: fmt.Sprintf("<li class=\"item\">Title: Default. ID: %d</li>", rand.Int())}, nil
+}
+
 //func (s *server) Index(ctx context.Context, in *generated.BodyRequest) (*generated.BodyResponse, error) {
 //	log.Printf("Received: %v", in.GetBody())
 //	return &generated.BodyResponse{Body: `<li class="list-group-item bg-primary text-white">Title2</li>`}, nil

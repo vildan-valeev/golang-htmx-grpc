@@ -18,7 +18,7 @@ make go-proto
 ```
 3. Compile the client side JavaScript (optional, if doesn't exist `main.js`)
 ```sh
-browserify client.js -o main.js
+browserify grpc_ext.js -o main.js
 ```
 4. Run Proxy Server
 ```sh

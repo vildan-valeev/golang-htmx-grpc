@@ -5,12 +5,39 @@ option go_package = "/generated;generated";
 
 service APIService {
   rpc AddItem(BodyRequest) returns (BodyResponse) {}
+  rpc ReadItem(BodyRequest) returns (BodyResponse) {}
 }
 
 message BodyRequest {
   string body = 1;
 }
 
+// TODO: replace BodyRequests in methods
+message CreateItemRequest {
+  int64 id = 1;
+  string title = 2;
+}
+
+message ReadItemRequest {
+  int64 id = 1;
+}
+
+message UpdateItemRequest {
+  int64 id = 1;
+  string title = 2;
+}
+
+message DeleteItemRequest {
+  int64 id = 1;
+}
+
+message GetAllRequest {
+  int64 limit = 1;
+
+}
+
+//------------------------------------
+// Don't edit BodyResponse
 message BodyResponse {
   string body = 1;
 }

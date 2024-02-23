@@ -135,5 +135,66 @@ proto.generated.APIServicePromiseClient.prototype.addItem =
 };
 
 
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.generated.BodyRequest,
+ *   !proto.generated.BodyResponse>}
+ */
+const methodDescriptor_APIService_ReadItem = new grpc.web.MethodDescriptor(
+  '/generated.APIService/ReadItem',
+  grpc.web.MethodType.UNARY,
+  proto.generated.BodyRequest,
+  proto.generated.BodyResponse,
+  /**
+   * @param {!proto.generated.BodyRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.generated.BodyResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.generated.BodyRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.generated.BodyResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.generated.BodyResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.generated.APIServiceClient.prototype.readItem =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/generated.APIService/ReadItem',
+      request,
+      metadata || {},
+      methodDescriptor_APIService_ReadItem,
+      callback);
+};
+
+
+/**
+ * @param {!proto.generated.BodyRequest} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.generated.BodyResponse>}
+ *     Promise that resolves to the response
+ */
+proto.generated.APIServicePromiseClient.prototype.readItem =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/generated.APIService/ReadItem',
+      request,
+      metadata || {},
+      methodDescriptor_APIService_ReadItem);
+};
+
+
 module.exports = proto.generated;
 

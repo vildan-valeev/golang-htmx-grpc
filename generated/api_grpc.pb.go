@@ -23,6 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type APIServiceClient interface {
 	AddItem(ctx context.Context, in *BodyRequest, opts ...grpc.CallOption) (*BodyResponse, error)
+	ReadItem(ctx context.Context, in *BodyRequest, opts ...grpc.CallOption) (*BodyResponse, error)
 }
 
 type aPIServiceClient struct {
@@ -42,11 +43,21 @@ func (c *aPIServiceClient) AddItem(ctx context.Context, in *BodyRequest, opts ..
 	return out, nil
 }
 
+func (c *aPIServiceClient) ReadItem(ctx context.Context, in *BodyRequest, opts ...grpc.CallOption) (*BodyResponse, error) {
+	out := new(BodyResponse)
+	err := c.cc.Invoke(ctx, "/generated.APIService/ReadItem", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // APIServiceServer is the server API for APIService service.
 // All implementations must embed UnimplementedAPIServiceServer
 // for forward compatibility
 type APIServiceServer interface {
 	AddItem(context.Context, *BodyRequest) (*BodyResponse, error)
+	ReadItem(context.Context, *BodyRequest) (*BodyResponse, error)
 	mustEmbedUnimplementedAPIServiceServer()
 }
 
@@ -56,6 +67,9 @@ type UnimplementedAPIServiceServer struct {
 
 func (UnimplementedAPIServiceServer) AddItem(context.Context, *BodyRequest) (*BodyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddItem not implemented")
+}
+func (UnimplementedAPIServiceServer) ReadItem(context.Context, *BodyRequest) (*BodyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReadItem not implemented")
 }
 func (UnimplementedAPIServiceServer) mustEmbedUnimplementedAPIServiceServer() {}
 
@@ -88,6 +102,24 @@ func _APIService_AddItem_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _APIService_ReadItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BodyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(APIServiceServer).ReadItem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/generated.APIService/ReadItem",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(APIServiceServer).ReadItem(ctx, req.(*BodyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // APIService_ServiceDesc is the grpc.ServiceDesc for APIService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -98,6 +130,10 @@ var APIService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AddItem",
 			Handler:    _APIService_AddItem_Handler,
+		},
+		{
+			MethodName: "ReadItem",
+			Handler:    _APIService_ReadItem_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

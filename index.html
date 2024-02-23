@@ -8,10 +8,24 @@
 </head>
 <body>
 
-<p>Get New ID.</p>
-<ul id="add-items">
-    <li class="item">fff</li>
+<h1>CRUD with gRPC.</h1>
+<p>Create</p>
+
+<ul id="create-items">
+    <li class="item">foo</li>
 </ul>
-<button hx-ext="grpc" hx-trigger="click" hx-target="#add-items" hx-swap="beforeend" hx-indicator="#spinner">Click</button>
+<form hx-ext="grpc" grpc-method="addItem" hx-target="#create-items" hx-swap="beforeend" hx-indicator="#spinner">
+    <input type="text" id="title" placeholder="title">
+    <input type="text" id="id" placeholder="id">
+    <button type="submit" >Create</button>
+</form>
+
+<hr>
+<ul id="read-items">
+    <li class="item">bar</li>
+</ul>
+<button hx-ext="grpc" grpc-method="readItem" hx-trigger="click" hx-target="#read-items" hx-swap="beforeend" hx-indicator="#spinner">Read</button>
+
+
 </body>
 </html>
