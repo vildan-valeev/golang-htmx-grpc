@@ -8,15 +8,15 @@ Sending HTML code parts from the backend as a string and inserting them into the
 
 ---
 ### Start
-1. Generate js from proto 
+1. Generate js from proto file (optional, if doesn't exist `api_pb.js`, `api_pb_web.js`)
 ```sh
 make js-proto
 ```
-2. Generate js from proto
+2. Generate go package from proto file (optional, if doesn't exist `api.pb.go`, `api_grpc.pb.go`)
 ```sh
 make go-proto
 ```
-3. Compile the client side JavaScript 
+3. Compile the client side JavaScript (optional, if doesn't exist `main.js`)
 ```sh
 browserify client.js -o main.js
 ```
