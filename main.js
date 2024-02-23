@@ -442,22 +442,74 @@ proto.generated.BodyResponse.prototype.setBody = function(value) {
 goog.object.extend(exports, proto.generated);
 
 },{"google-protobuf":4}],3:[function(require,module,exports){
-htmx.defineExtension('grpc', {
-    onEvent: function (name, evt) {
-        const {BodyRequest} = require('./api_pb.js');
-        const {APIServiceClient} = require('./api_grpc_web_pb.js');
-        var client = new APIServiceClient('http://localhost:8080');
+// htmx.defineExtension('grpc', {
+//     onEvent: function (name, evt) {
+//
+//         console.debug(name, evt);
+//         var elt = evt.detail.elt;
+//         console.log(elt);
+//
+//         console.log(evt.detail.target )
+//         const {BodyRequest} = require('./api_pb.js');
+//         const {APIServiceClient} = require('./api_grpc_web_pb.js');
+//         var client = new APIServiceClient('http://localhost:8080');
+//
+//         var request = new BodyRequest();
+//         request.setBody('some data');
+//
+//         client.addItem(request, {}, (err, response) => {
+//             console.log(response.getBody());
+//
+//             // const f = document.querySelector('.item')
+//             // f.innerHTML = response.getBody();
+//             evt.detail.triggerEvent
+//             return response.getBody();
+//         });
+//     }
+// });
 
-        var request = new BodyRequest();
-        request.setBody('some data');
+(function(){
 
-        client.addItem(request, {}, (err, response) => {
-            console.log(response.getBody());
+    var api;
 
-            return response.getBody();
-        });
+    function maybeRemoveMe(elt) {
+        var timing = elt.getAttribute("remove-me") || elt.getAttribute("data-remove-me");
+        if (timing) {
+            setTimeout(function () {
+                elt.parentElement.removeChild(elt);
+            }, htmx.parseInterval(timing));
+        }
     }
-});
+
+    htmx.defineExtension('grpc', {
+
+        init: function (apiRef) {
+            api = apiRef;
+        },
+
+
+        onEvent: function (name, evt) {
+            const {BodyRequest} = require('./api_pb.js');
+            const {APIServiceClient} = require('./api_grpc_web_pb.js');
+
+            var client = new APIServiceClient('http://localhost:8080');
+            var request = new BodyRequest();
+            request.setBody('some data');
+
+            client.addItem(request, {}, (err, response) => {
+                console.log(response.getBody())
+                const elt = evt.detail.elt;
+                const swapStyle = elt.getAttribute("hx-swap");
+                const target = api.getTarget(elt);
+                const responseText = response.getBody();
+                const settleInfo = api.makeSettleInfo(elt);
+                api.selectAndSwap(swapStyle, target, elt, responseText, settleInfo)
+
+
+            });
+        }
+    });
+})();
 
 },{"./api_grpc_web_pb.js":1,"./api_pb.js":2}],4:[function(require,module,exports){
 (function (global,Buffer){(function (){

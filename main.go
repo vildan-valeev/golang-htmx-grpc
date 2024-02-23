@@ -16,7 +16,7 @@ type server struct {
 
 func (s *server) AddItem(ctx context.Context, in *generated.BodyRequest) (*generated.BodyResponse, error) {
 	log.Printf("Received: %v", in.GetBody())
-	return &generated.BodyResponse{Body: fmt.Sprintf("<li>ID %d</li>", rand.Int())}, nil
+	return &generated.BodyResponse{Body: fmt.Sprintf("<li class=\"item\">ID %d</li>", rand.Int())}, nil
 }
 
 //func (s *server) Index(ctx context.Context, in *generated.BodyRequest) (*generated.BodyResponse, error) {
